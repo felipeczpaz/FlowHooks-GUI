@@ -33,7 +33,7 @@
     <ClCompile Include="FHGUI\Elements\Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MenuWindow\MenuWindow.cpp">
+    <ClCompile Include="Menu\Menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FHGUI\Input.cpp">
@@ -59,7 +59,7 @@
     <ClInclude Include="FHGUI\Elements\Window.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MenuWindow\MenuWindow.hpp">
+    <ClInclude Include="Menu\Menu.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Singleton.hpp">
@@ -72,6 +72,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Render\D3DFont.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

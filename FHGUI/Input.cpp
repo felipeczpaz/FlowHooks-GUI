@@ -1,18 +1,22 @@
 #include <cstring>
-
 #include "Input.hpp"
-#include "../MainWindow/MainWindow.hpp"
 
 #define GET_X_LPARAM(lp) ((int)(short)LOWORD(lp))
 #define GET_Y_LPARAM(lp) ((int)(short)HIWORD(lp))
 
 namespace FHGUI
 {
+	void Input::Init(HWND hWnd)
+	{
+		hWnd_ = hWnd;
+	}
+
 	void Input::Update()
 	{
 		std::memcpy(PrevPressedKeys_, PressedKeys_, sizeof(PrevPressedKeys_));
 
-		bool OutOfFocus = GetForegroundWindow() != MainWindow::Get().Hwnd();
+		bool OutOfFocus = GetForegroundWindow() != hWnd_;
+
 		for (int i = 0; i < MAX_KEYS; ++i) {
 			PressedKeys_[i] = OutOfFocus ? false : (GetAsyncKeyState(i) & 0xFFFF);
 		}

@@ -20,7 +20,7 @@ namespace FHGUI
 		}
 	private:
 		std::string Title_{};
-		int TitleWidth_;
+		int TitleWidth_{ 0 };
 	};
 
 	class Window

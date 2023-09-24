@@ -20,7 +20,7 @@ namespace Render
 		int w, h;
 	};
 
-	void Init();
+	void Init(LPDIRECT3DDEVICE9 Device);
 	void OnLostDevice();
 	void OnResetDevice();
 	void Shutdown();
@@ -32,9 +32,6 @@ namespace Render
 	Size GetTextSize(const char* strText, CD3DFont* pFont);
 	void SetupRenderStates();
 
-	class Fonts : public Singleton<Fonts>
-	{
-	public:
-		CD3DFont* MenuFont{ nullptr };
-	};
+	extern LPDIRECT3DDEVICE9 Device_;
+	extern CD3DFont* MenuFont;
 }

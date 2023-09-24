@@ -1,12 +1,13 @@
 #include "DirectX/DirectX.hpp"
 #include "FHGUI/FHGUI.hpp"
+#include "FHGUI/Input.hpp"
 #include "MainWindow/MainWindow.hpp"
-#include "MenuWindow/MenuWindow.hpp"
+#include "Menu/Menu.hpp"
 #include "Render/Render.hpp"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	if (!MainWindow::Get().Init(1280, 600)) {
+	if (!MainWindow::Get().Init(L"FlowHooks", L"FlowHooks GUI Showcase", 1280, 600)) {
 		MessageBoxW(NULL, L"Failed to create Window!", L"FHGUI", MB_OK | MB_ICONERROR);
 		return 1;
 	}
@@ -16,11 +17,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		return 1;
 	}
 
-	Render::Init();
+	Render::Init(DirectX::Get().Device());
+
+	FHGUI::Input::Get().Init(MainWindow::Get().Hwnd());
+	Menu::Init();
 
 	MainWindow::Get().Display();
-
-	MenuWindow::Init();
 
 	while (MainWindow::Get().RunLoop()) {
 		if (DirectX::Get().BeginRender()) {
@@ -30,6 +32,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			DirectX::Get().EndRender();
 		}
 	}
+
+	Render::Shutdown();
+	DirectX::Get().Shutdown();
+	MainWindow::Get().Shutdown();
 
 	return 0;
 }

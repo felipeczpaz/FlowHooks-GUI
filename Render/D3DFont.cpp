@@ -4,13 +4,12 @@
 // Desc: Texture-based font class
 //-----------------------------------------------------------------------------
 
-#pragma once
-#include <cstdio>
 #include <cmath>
 #include <tchar.h>
 #include <DirectXMath.h>
 
 #include "D3DFont.hpp"
+#include "../Platform.hpp"
 
 using namespace ::DirectX;
 

@@ -168,7 +168,7 @@
     <ClCompile Include="FHGUI\FHGUI.cpp" />
     <ClCompile Include="FHGUI\Input.cpp" />
     <ClCompile Include="MainWindow\MainWindow.cpp" />
-    <ClCompile Include="MenuWindow\MenuWindow.cpp" />
+    <ClCompile Include="Menu\Menu.cpp" />
     <ClCompile Include="Render\D3DFont.cpp" />
     <ClCompile Include="Render\Render.cpp" />
     <ClCompile Include="WinMain.cpp" />
@@ -180,7 +180,8 @@
     <ClInclude Include="FHGUI\FHGUI.hpp" />
     <ClInclude Include="FHGUI\Input.hpp" />
     <ClInclude Include="MainWindow\MainWindow.hpp" />
-    <ClInclude Include="MenuWindow\MenuWindow.hpp" />
+    <ClInclude Include="Menu\Menu.hpp" />
+    <ClInclude Include="Platform.hpp" />
     <ClInclude Include="Render\D3DFont.hpp" />
     <ClInclude Include="Singleton.hpp" />
     <ClInclude Include="Render\Render.hpp" />

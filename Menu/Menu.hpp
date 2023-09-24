@@ -1,6 +1,6 @@
 #pragma once
 
-namespace MenuWindow
+namespace Menu
 {
 	void Init();
 }

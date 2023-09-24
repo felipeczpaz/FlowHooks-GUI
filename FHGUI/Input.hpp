@@ -11,6 +11,7 @@ namespace FHGUI
 	class Input : public Singleton<Input>
 	{
 	public:
+		void Init(HWND hWnd);
 		void Update();
 		bool OnWindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
@@ -35,7 +36,8 @@ namespace FHGUI
 		}
 
 	private:
+		HWND hWnd_{ nullptr };
 		Point MousePos_{ 0, 0 };
-		bool PressedKeys_[MAX_KEYS], PrevPressedKeys_[MAX_KEYS];
+		bool PressedKeys_[MAX_KEYS]{ false }, PrevPressedKeys_[MAX_KEYS]{ false };
 	};
 }

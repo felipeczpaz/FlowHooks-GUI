@@ -2,9 +2,6 @@
 // Thank you nvidia for ready-to-use solution :)
 #include <d3d9.h>
 
-// Releasing makro making sure we dont try to release a null pointer
-#define SAFE_RELEASE(p) { if(p) { (p)->Release(); (p) = NULL; } }
-
 
 // Font creation flags
 #define D3DFONT_ITALIC      (1 << 0)
