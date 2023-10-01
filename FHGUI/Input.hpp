@@ -35,6 +35,11 @@ namespace FHGUI
 			return MousePos_.x >= left && MousePos_.y >= top && MousePos_.x < left + right && MousePos_.y < top + bottom;
 		}
 
+		bool MouseInArea(const Rect& area)
+		{
+			return MouseInArea(area.x, area.y, area.w, area.h);
+		}
+
 	private:
 		HWND hWnd_{ nullptr };
 		Point MousePos_{ 0, 0 };

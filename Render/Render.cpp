@@ -129,7 +129,6 @@ namespace Render
     {
         SIZE sz{};
         pFont->GetTextExtent(strText, &sz);
-
         return { sz.cx, sz.cy };
     }
 

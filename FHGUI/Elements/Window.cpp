@@ -20,14 +20,11 @@ namespace FHGUI
 			Render::String(PosX_ + (Width_ / 2), PosY_ + 10, { 255, 255, 255, 255 }, Title_.c_str(), Render::MenuFont, CD3DFONT_CENTERED_X | CD3DFONT_CENTERED_Y);
 		}
 
+		const Rect& Area = ClientArea();
+
 		if (!Tabs_.empty()) {
-			int ClientPosX = PosX_ + 9;
-			int ClientPosY = PosY_ + 19;
-
-			int ClientWidth = Width_ - 18;
-
-			Render::FilledRect(ClientPosX, ClientPosY, ClientWidth, TAB_HEIGHT, { 57, 57, 57, 255 });
-			Render::Line(ClientPosX, ClientPosY + TAB_HEIGHT, ClientPosX + ClientWidth, ClientPosY + TAB_HEIGHT, { 0, 0, 0, 255 });
+			Render::FilledRect(Area.x, Area.y, Area.w, TAB_HEIGHT, { 57, 57, 57, 255 });
+			Render::Line(Area.x, Area.y + TAB_HEIGHT, Area.x + Area.w, Area.y + TAB_HEIGHT, { 0, 0, 0, 255 });
 
 			int OffsetX = 0;
 
@@ -38,7 +35,7 @@ namespace FHGUI
 
 				int TabWidth = pTab->GetTitleWidth() + 15;
 
-				Rect TabArea = { ClientPosX + OffsetX, ClientPosY, TabWidth, TAB_HEIGHT };
+				Rect TabArea = { Area.x + OffsetX, Area.y, TabWidth, TAB_HEIGHT };
 				pTab->Render(TabArea, pTab == SelectedTab_, i == 0);
 
 				OffsetX += TabArea.w;
@@ -53,8 +50,7 @@ namespace FHGUI
 			return;
 
 		if (!Tabs_.empty()) {
-			int ClientPosX = PosX_ + 9;
-			int ClientPosY = PosY_ + 19;
+			const Rect& Area = ClientArea();
 
 			int OffsetX = 0;
 
@@ -65,8 +61,8 @@ namespace FHGUI
 
 				int TabWidth = pTab->GetTitleWidth() + 15;
 
-				Rect TabArea = { ClientPosX + OffsetX, ClientPosY, TabWidth, TAB_HEIGHT };
-				if (Input::Get().MouseInArea(TabArea.x, TabArea.y, TabArea.w, TabArea.h)) {
+				Rect TabArea = { Area.x + OffsetX, Area.y, TabWidth, TAB_HEIGHT };
+				if (Input::Get().MouseInArea(TabArea)) {
 					SelectedTab_ = pTab;
 				}
 

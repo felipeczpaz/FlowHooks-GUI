@@ -73,12 +73,12 @@ CD3DFont::CD3DFont(const TCHAR* strFontName, DWORD dwHeight, DWORD dwWeight, DWO
     this->dwSpacing = 0;
 
 
-    this->pd3dDevice = NULL;
-    this->pTexture = NULL;
-    this->pVB = NULL;
+    this->pd3dDevice = nullptr;
+    this->pTexture = nullptr;
+    this->pVB = nullptr;
 
-    this->pStateBlockSaved = NULL;
-    this->pStateBlockDrawString = NULL;
+    this->pStateBlockSaved = nullptr;
+    this->pStateBlockDrawString = nullptr;
 }
 
 
@@ -134,7 +134,7 @@ HRESULT CD3DFont::InitDeviceObjects(LPDIRECT3DDEVICE9 pd3dDevice)
 
     // Create a new texture for the font
     hr = this->pd3dDevice->CreateTexture(this->dwTexWidth, this->dwTexHeight, 1, D3DUSAGE_DYNAMIC, D3DFMT_A4R4G4B4, D3DPOOL_DEFAULT,
-        &this->pTexture, NULL);
+        &this->pTexture, nullptr);
     if (FAILED(hr))
         return hr;
 
@@ -150,13 +150,13 @@ HRESULT CD3DFont::InitDeviceObjects(LPDIRECT3DDEVICE9 pd3dDevice)
     bmi.bmiHeader.biBitCount = 32;
 
     // Create a DC and a bitmap for the font
-    HDC     hDC = CreateCompatibleDC(NULL);
-    HBITMAP hbmBitmap = CreateDIBSection(hDC, &bmi, DIB_RGB_COLORS, (void**)&pBitmapBits, NULL, 0);
+    HDC     hDC = CreateCompatibleDC(nullptr);
+    HBITMAP hbmBitmap = CreateDIBSection(hDC, &bmi, DIB_RGB_COLORS, (void**)&pBitmapBits, nullptr, 0);
 
     // Sanity checks
-    if (hDC == NULL)
+    if (hDC == nullptr)
         return E_FAIL;
-    if (hbmBitmap == NULL)
+    if (hbmBitmap == nullptr)
         return E_FAIL;
 
     SetMapMode(hDC, MM_TEXT);
@@ -170,7 +170,7 @@ HRESULT CD3DFont::InitDeviceObjects(LPDIRECT3DDEVICE9 pd3dDevice)
         this->dwFontHeight > 8 ? CLEARTYPE_NATURAL_QUALITY : ANTIALIASED_QUALITY, VARIABLE_PITCH,
         this->strFontName);
 
-    if (NULL == hFont)
+    if (nullptr == hFont)
         return E_FAIL;
 
     HGDIOBJ hbmOld = SelectObject(hDC, hbmBitmap);
@@ -201,7 +201,7 @@ HRESULT CD3DFont::InitDeviceObjects(LPDIRECT3DDEVICE9 pd3dDevice)
             y += size.cy + 1;
         }
 
-        ExtTextOut(hDC, x + 0, y + 0, ETO_OPAQUE, NULL, str, 1, NULL);
+        ExtTextOut(hDC, x + 0, y + 0, ETO_OPAQUE, nullptr, str, 1, nullptr);
 
         this->fTexCoords[c - 32][0] = ((FLOAT)(x + 0 - this->dwSpacing)) / this->dwTexWidth;
         this->fTexCoords[c - 32][1] = ((FLOAT)(y + 0 + 0)) / this->dwTexHeight;
@@ -265,7 +265,7 @@ HRESULT CD3DFont::RestoreDeviceObjects()
     int vertexSize = max(sizeof(FONT2DVERTEX), sizeof(FONT3DVERTEX));
     if (FAILED(hr = this->pd3dDevice->CreateVertexBuffer(MAX_NUM_VERTICES * vertexSize,
         D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC, 0,
-        D3DPOOL_DEFAULT, &this->pVB, NULL))) {
+        D3DPOOL_DEFAULT, &this->pVB, nullptr))) {
         return hr;
     }
 
@@ -345,7 +345,7 @@ HRESULT CD3DFont::InvalidateDeviceObjects()
 HRESULT CD3DFont::DeleteDeviceObjects()
 {
     SAFE_RELEASE(this->pTexture);
-    this->pd3dDevice = NULL;
+    this->pd3dDevice = nullptr;
 
     return S_OK;
 }
@@ -359,7 +359,7 @@ HRESULT CD3DFont::DeleteDeviceObjects()
 //-----------------------------------------------------------------------------
 HRESULT CD3DFont::GetTextExtent(const char* strText, SIZE* pSize)
 {
-    if (NULL == strText || NULL == pSize)
+    if (nullptr == strText || nullptr == pSize)
         return E_FAIL;
 
     FLOAT fRowWidth = 0.0f;
@@ -407,14 +407,14 @@ HRESULT CD3DFont::GetTextExtent(const char* strText, SIZE* pSize)
 HRESULT CD3DFont::DrawStringScaled(FLOAT x, FLOAT y, FLOAT fXScale, FLOAT fYScale, DWORD dwColor, const char* strText,
     DWORD dwFlags)
 {
-    if (this->pd3dDevice == NULL)
+    if (this->pd3dDevice == nullptr)
         return E_FAIL;
 
     // Set up renderstate
     this->pStateBlockSaved->Capture();
     this->pStateBlockDrawString->Apply();
     this->pd3dDevice->SetFVF(D3DFVF_FONT2DVERTEX);
-    this->pd3dDevice->SetPixelShader(NULL);
+    this->pd3dDevice->SetPixelShader(nullptr);
     this->pd3dDevice->SetStreamSource(0, this->pVB, 0, sizeof(FONT2DVERTEX));
 
     // Set filter states
@@ -532,14 +532,14 @@ HRESULT CD3DFont::DrawString(int sx, int sy, DWORD dwColor, const char* strText,
 //-----------------------------------------------------------------------------
 HRESULT CD3DFont::DrawString(FLOAT sx, FLOAT sy, DWORD dwColor, const char* strText, DWORD dwFlags)
 {
-    if (this->pd3dDevice == NULL)
+    if (this->pd3dDevice == nullptr)
         return E_FAIL;
 
     // Setup renderstate
     this->pStateBlockSaved->Capture();
     this->pStateBlockDrawString->Apply();
     this->pd3dDevice->SetFVF(D3DFVF_FONT2DVERTEX);
-    this->pd3dDevice->SetPixelShader(NULL);
+    this->pd3dDevice->SetPixelShader(nullptr);
     this->pd3dDevice->SetStreamSource(0, this->pVB, 0, sizeof(FONT2DVERTEX));
 
     // Set filter states
@@ -568,7 +568,7 @@ HRESULT CD3DFont::DrawString(FLOAT sx, FLOAT sy, DWORD dwColor, const char* strT
     FLOAT fStartX = sx;
 
     // Fill vertex buffer
-    FONT2DVERTEX* pVertices = NULL;
+    FONT2DVERTEX* pVertices = nullptr;
     DWORD         dwNumTriangles = 0;
     this->pVB->Lock(0, 0, (void**)&pVertices, D3DLOCK_DISCARD);
 
@@ -615,7 +615,7 @@ HRESULT CD3DFont::DrawString(FLOAT sx, FLOAT sy, DWORD dwColor, const char* strT
                 // Unlock, render, and relock the vertex buffer
                 this->pVB->Unlock();
                 this->pd3dDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, dwNumTriangles);
-                pVertices = NULL;
+                pVertices = nullptr;
                 this->pVB->Lock(0, 0, (void**)&pVertices, D3DLOCK_DISCARD);
                 dwNumTriangles = 0L;
             }

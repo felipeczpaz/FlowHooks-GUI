@@ -87,9 +87,7 @@ namespace FHGUI
 	{
 		for (std::size_t i = 0; i < Windows_.size(); ++i) {
 			Window* pWindow = Windows_[i];
-			if (pWindow) {
-				delete pWindow;
-			}
+			SAFE_DELETE(pWindow);
 		}
 	}
 }

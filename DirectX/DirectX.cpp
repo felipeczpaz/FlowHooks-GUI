@@ -48,6 +48,7 @@ void DirectX::OnSize(LPARAM lParam)
 bool DirectX::BeginRender()
 {
     pDevice_->Clear(0, nullptr, D3DCLEAR_TARGET, D3DCOLOR_RGBA(40, 40, 40, 255), 1.0f, 0);
+    
     if (FAILED(pDevice_->BeginScene()))
         return false;
 
@@ -60,6 +61,7 @@ void DirectX::EndRender()
     pDevice_->EndScene();
 
     HRESULT hResult = pDevice_->Present(nullptr, nullptr, nullptr, nullptr);
+
     if (hResult == D3DERR_DEVICELOST && pDevice_->TestCooperativeLevel() == D3DERR_DEVICENOTRESET) {
         ResetDevice();
     }

@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "../Datatypes.hpp"
+#include "../../Platform.hpp"
 
 namespace FHGUI
 {
@@ -37,9 +38,7 @@ namespace FHGUI
 		{
 			for (std::size_t i = 0; i < Tabs_.size(); ++i) {
 				Tab* pTab = Tabs_[i];
-				if (pTab) {
-					delete pTab;
-				}
+				SAFE_DELETE(pTab);
 			}
 		}
 
@@ -58,6 +57,11 @@ namespace FHGUI
 			}
 
 			Tabs_.emplace_back(pTab);
+		}
+
+		Rect ClientArea()
+		{
+			return { PosX_ + 9, PosY_ + 19, Width_ - 18, Height_ - 28 };
 		}
 
 	private:

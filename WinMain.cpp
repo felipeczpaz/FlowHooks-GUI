@@ -8,12 +8,12 @@
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	if (!MainWindow::Get().Init(L"FlowHooks", L"FlowHooks GUI Showcase", 1280, 600)) {
-		MessageBoxW(NULL, L"Failed to create Window!", L"FHGUI", MB_OK | MB_ICONERROR);
+		MessageBoxW(nullptr, L"Failed to create Window!", L"FHGUI", MB_OK | MB_ICONERROR);
 		return 1;
 	}
 
 	if (!DirectX::Get().Init(MainWindow::Get().Hwnd())) {
-		MessageBoxW(NULL, L"Failed to create DirectX Device!", L"FHGUI", MB_OK | MB_ICONERROR);
+		MessageBoxW(nullptr, L"Failed to create DirectX Device!", L"FHGUI", MB_OK | MB_ICONERROR);
 		return 1;
 	}
 
