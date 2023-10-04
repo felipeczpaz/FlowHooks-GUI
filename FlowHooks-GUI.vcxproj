@@ -164,6 +164,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DirectX\DirectX.cpp" />
+    <ClCompile Include="FHGUI\Elements\Controls.cpp" />
     <ClCompile Include="FHGUI\Elements\Window.cpp" />
     <ClCompile Include="FHGUI\FHGUI.cpp" />
     <ClCompile Include="FHGUI\Input.cpp" />
@@ -176,6 +177,7 @@
   <ItemGroup>
     <ClInclude Include="DirectX\DirectX.hpp" />
     <ClInclude Include="FHGUI\Datatypes.hpp" />
+    <ClInclude Include="FHGUI\Elements\Controls.hpp" />
     <ClInclude Include="FHGUI\Elements\Window.hpp" />
     <ClInclude Include="FHGUI\FHGUI.hpp" />
     <ClInclude Include="FHGUI\Input.hpp" />

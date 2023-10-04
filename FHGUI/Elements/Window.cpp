@@ -1,6 +1,7 @@
+#include "Controls.hpp"
 #include "Window.hpp"
-#include "../Input.hpp"
 
+#include "../Input.hpp"
 #include "../../Render/D3DFont.hpp"
 #include "../../Render/Render.hpp"
 
@@ -45,13 +46,11 @@ namespace FHGUI
 
 	void Window::Update()
 	{
-		bool LeftClick = Input::Get().KeyPressed(VK_LBUTTON);
-		if (!LeftClick)
+		if (Tabs_.empty())
 			return;
 
-		if (!Tabs_.empty()) {
+		if (Input::Get().KeyPressed(VK_LBUTTON)) {
 			const Rect& Area = ClientArea();
-
 			int OffsetX = 0;
 
 			for (std::size_t i = 0; i < Tabs_.size(); ++i) {
@@ -69,11 +68,22 @@ namespace FHGUI
 				OffsetX += TabArea.w;
 			}
 		}
+
+		if (SelectedTab_) {
+			SelectedTab_->Update();
+		}
 	}
 
 	Tab::Tab(const std::string& strTitle) : Title_{ strTitle }
 	{
 		TitleWidth_ = Render::GetTextSize(Title_.c_str(), Render::MenuFont).w;
+	}
+
+	Tab::~Tab() {
+		for (size_t i = 0; i < Controls_.size(); ++i) {
+			Control* pControl = Controls_[i];
+			SAFE_DELETE(pControl);
+		}
 	}
 
 	void Tab::Render(const Rect& Area, bool Selected, bool FirstTab)
@@ -95,12 +105,43 @@ namespace FHGUI
 			Render::String(Area.x + (Area.w / 2), Area.y + (Area.h / 2), { 255, 255, 255, 255 }, Title_.c_str(), Render::MenuFont, CD3DFONT_CENTERED_X | CD3DFONT_CENTERED_Y);
 		}
 
-		if (!Selected)
+		if (!Selected || Controls_.empty())
 			return;
+
+		for (size_t i = 0; i < Controls_.size(); ++i) {
+			Control* pControl = Controls_[i];
+			if (pControl) {
+				pControl->Render();
+			}
+		}
 	}
 
 	void Tab::Update()
 	{
+		if (Controls_.empty())
+			return;
 
+		for (size_t i = 0; i < Controls_.size(); ++i) {
+			Control* pControl = Controls_[i];
+			if (pControl) {
+				pControl->Update();
+			}
+		}
+
+		if (Input::Get().KeyPressed(VK_LBUTTON)) {
+			for (size_t i = 0; i < Controls_.size(); ++i) {
+				Control* pControl = Controls_[i];
+				if (pControl && Input::Get().MouseInArea(pControl->InputArea())) {
+					pControl->OnClick();
+				}
+			}
+		}
+	}
+
+	void Tab::RegisterControl(Control* pControl)
+	{
+		pControl->Tab_ = this;
+		pControl->Window_ = Window_;
+		Controls_.emplace_back(pControl);
 	}
 }

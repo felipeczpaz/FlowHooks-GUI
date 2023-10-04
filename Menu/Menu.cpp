@@ -1,6 +1,7 @@
 #include "Menu.hpp"
 
 #include "../FHGUI/FHGUI.hpp"
+#include "../FHGUI/Elements/Controls.hpp"
 #include "../FHGUI/Elements/Window.hpp"
 
 void Menu::Init()
@@ -9,6 +10,16 @@ void Menu::Init()
 
 	FHGUI::Tab* AimbotTab = new FHGUI::Tab("Aimbot");
 	Window->RegisterTab(AimbotTab);
+	{
+		FHGUI::GroupBox* AimbotGroup = new FHGUI::GroupBox("Aimbot", 0, 0, 246, 228);
+		AimbotTab->RegisterControl(AimbotGroup);
+		{
+			static bool bEnabled = false;
+
+			FHGUI::CheckBox* EnabledBox = new FHGUI::CheckBox("Enabled", &bEnabled);
+			AimbotGroup->RegisterControl(EnabledBox);
+		}
+	}
 
 	FHGUI::Tab* VisualsTab = new FHGUI::Tab("Visuals");
 	Window->RegisterTab(VisualsTab);

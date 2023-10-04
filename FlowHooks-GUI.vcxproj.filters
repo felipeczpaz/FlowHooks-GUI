@@ -42,6 +42,9 @@
     <ClCompile Include="Render\D3DFont.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FHGUI\Elements\Controls.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainWindow\MainWindow.hpp">
@@ -75,6 +78,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Platform.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FHGUI\Elements\Controls.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
