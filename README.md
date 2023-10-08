@@ -6,7 +6,7 @@
 
 ## Screenshots
 
-![App Screenshot](https://i.imgur.com/3BMPrEQ.png)
+![App Screenshot](https://i.imgur.com/dsWpOaM.png)
 
 
 # FlowHooks-GUI
