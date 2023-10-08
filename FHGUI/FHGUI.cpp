@@ -43,7 +43,7 @@ namespace FHGUI
 				if (!pOther || pWindow == pOther) continue;
 
 				if (pOther->LastInputTime_ > pWindow->LastInputTime_) {
-					if (Input::Get().MouseInArea(pOther->PosX_, pOther->PosY_, pOther->Width_, pOther->Height_)) {
+					if (Input::Get().MouseInArea(pOther->Area())) {
 						ShouldHandleInput = false;
 						break;
 					}
@@ -53,7 +53,7 @@ namespace FHGUI
 			if (!ShouldHandleInput)
 				continue;
 
-			if (LeftClick && Input::Get().MouseInArea(pWindow->PosX_, pWindow->PosY_, pWindow->Width_, 17)) {
+			if (LeftClick && Input::Get().MouseInArea(pWindow->DragArea())) {
 				pWindow->LastInputTime_ = CurrentTime_;
 
 				DragOffsetX_ = CursorPos.x - pWindow->PosX_;
@@ -71,7 +71,7 @@ namespace FHGUI
 		if (!IsOpen_) return;
 		if (Windows_.empty()) return;
 
-		std::sort(Windows_.begin(), Windows_.end(), [](Window* a, Window* b) {
+		std::sort(Windows_.begin(), Windows_.end(), [](const Window* a, const Window* b) {
 			return a->LastInputTime_ < b->LastInputTime_;
 			});
 

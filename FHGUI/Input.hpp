@@ -4,10 +4,10 @@
 #include "Datatypes.hpp"
 #include "../Singleton.hpp"
 
-#define MAX_KEYS 255
-
 namespace FHGUI
 {
+	constexpr int MAX_KEYS = 255;
+
 	class Input : public Singleton<Input>
 	{
 	public:

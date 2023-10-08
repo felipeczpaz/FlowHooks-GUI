@@ -2,6 +2,7 @@
 #include "Window.hpp"
 
 #include "../Input.hpp"
+
 #include "../../Render/D3DFont.hpp"
 #include "../../Render/Render.hpp"
 
@@ -112,6 +113,13 @@ namespace FHGUI
 			Control* pControl = Controls_[i];
 			if (pControl) {
 				pControl->Render();
+			}
+		}
+
+		for (size_t i = 0; i < Controls_.size(); ++i) {
+			Control* pControl = Controls_[i];
+			if (pControl && Input::Get().MouseInArea(pControl->InputArea())) {
+				pControl->RenderTooltip();
 			}
 		}
 	}

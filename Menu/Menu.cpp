@@ -16,13 +16,13 @@ void Menu::Init()
 		{
 			static bool bEnabled = false;
 
-			FHGUI::CheckBox* EnabledBox = new FHGUI::CheckBox("Enabled", &bEnabled);
+			FHGUI::CheckBox* EnabledBox = new FHGUI::CheckBox("Enabled", &bEnabled, "Enable/Disable Aimbot");
 			AimbotGroup->RegisterControl(EnabledBox);
 		}
 	}
 
-	FHGUI::Tab* VisualsTab = new FHGUI::Tab("Visuals");
-	Window->RegisterTab(VisualsTab);
+	FHGUI::Tab* VisualTab = new FHGUI::Tab("Visual");
+	Window->RegisterTab(VisualTab);
 
 	FHGUI::Tab* MiscTab = new FHGUI::Tab("Misc");
 	Window->RegisterTab(MiscTab);

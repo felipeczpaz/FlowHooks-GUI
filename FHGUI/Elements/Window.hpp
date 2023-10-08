@@ -71,6 +71,16 @@ namespace FHGUI
 			Tabs_.emplace_back(pTab);
 		}
 
+		Rect Area()
+		{
+			return { PosX_, PosY_, Width_, Height_ };
+		}
+
+		Rect DragArea()
+		{
+			return { PosX_, PosY_, Width_, 17 };
+		}
+
 		Rect ClientArea()
 		{
 			return { PosX_ + 9, PosY_ + 19, Width_ - 18, Height_ - 28 };
