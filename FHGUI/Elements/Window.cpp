@@ -118,7 +118,7 @@ namespace FHGUI
 
 		for (size_t i = 0; i < Controls_.size(); ++i) {
 			Control* pControl = Controls_[i];
-			if (pControl && Input::Get().MouseInArea(pControl->InputArea())) {
+			if (pControl && Input::Get().MouseInArea(pControl->TooltipArea())) {
 				pControl->RenderTooltip();
 			}
 		}

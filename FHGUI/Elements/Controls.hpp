@@ -14,10 +14,10 @@ namespace FHGUI
 		friend GroupBox;
 		friend Tab;
 	public:
-		Control(const char* strTitle, int PosX, int PosY, int Width, int Height)
-			: Title_{ strTitle }, PosX_{ PosX }, PosY_{ PosY }, Width_{ Width }, Height_{ Height }
+		Control(const char* strTitle, int PosX, int PosY, int Width, int Height, const char* strTooltip = "")
+			: Title_{ strTitle }, PosX_{ PosX }, PosY_{ PosY }, Width_{ Width }, Height_{ Height }, Tooltip_{ strTooltip }
 		{
-
+			SetTooltip(strTooltip);
 		}
 
 		void SetTooltip(const char* strTooltip);
@@ -27,6 +27,7 @@ namespace FHGUI
 		virtual void OnClick() {};
 		virtual Rect AbsoluteArea();
 		virtual Rect InputArea() { return AbsoluteArea(); };
+		virtual Rect TooltipArea() { return AbsoluteArea(); };
 		virtual void RenderTooltip();
 	protected:
 		std::string Title_{};
@@ -55,7 +56,7 @@ namespace FHGUI
 	class CheckBox : public Control
 	{
 	public:
-		CheckBox(const char* strTitle, bool* State, const char *strTooltip = "");
+		CheckBox(const char* strTitle, bool* State, const char* strTooltip = "");
 
 		virtual void Render() override;
 		virtual void OnClick() override;
