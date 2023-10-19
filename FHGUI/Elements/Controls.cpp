@@ -106,13 +106,11 @@ namespace FHGUI
 	}
 
 	CheckBox::CheckBox(const char* strTitle, bool* State, const char* strTooltip)
-		: Control(strTitle, 0, 0, 14, 14), Checked_{ State }
+		: Control(strTitle, 0, 0, 14, 14, strTooltip), Checked_{ State }
 	{
 		if (!Title_.empty()) {
 			TitleWidth_ = Render::GetTextSize(Title_.c_str(), Render::MenuFont).w;
 		}
-
-		SetTooltip(strTooltip);
 	}
 
 	void CheckBox::Render()

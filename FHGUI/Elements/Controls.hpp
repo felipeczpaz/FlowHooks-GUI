@@ -15,7 +15,7 @@ namespace FHGUI
 		friend Tab;
 	public:
 		Control(const char* strTitle, int PosX, int PosY, int Width, int Height, const char* strTooltip = "")
-			: Title_{ strTitle }, PosX_{ PosX }, PosY_{ PosY }, Width_{ Width }, Height_{ Height }, Tooltip_{ strTooltip }
+			: Title_{ strTitle }, PosX_{ PosX }, PosY_{ PosY }, Width_{ Width }, Height_{ Height }
 		{
 			SetTooltip(strTooltip);
 		}
@@ -27,7 +27,7 @@ namespace FHGUI
 		virtual void OnClick() {};
 		virtual Rect AbsoluteArea();
 		virtual Rect InputArea() { return AbsoluteArea(); };
-		virtual Rect TooltipArea() { return AbsoluteArea(); };
+		virtual Rect TooltipArea() { return InputArea(); };
 		virtual void RenderTooltip();
 	protected:
 		std::string Title_{};
