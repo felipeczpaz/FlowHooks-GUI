@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 #include <string>
 
 #include "../Datatypes.hpp"
@@ -9,13 +10,21 @@ namespace FHGUI
 	class Tab;
 	class Window;
 
+	enum class ControlTypes : int
+	{
+		INVALID = 0,
+		GROUPBOX,
+		CHECKBOX,
+		DROPDOWN
+	};
+
 	class Control
 	{
 		friend GroupBox;
 		friend Tab;
 	public:
-		Control(const char* strTitle, int PosX, int PosY, int Width, int Height, const char* strTooltip = "")
-			: Title_{ strTitle }, PosX_{ PosX }, PosY_{ PosY }, Width_{ Width }, Height_{ Height }
+		Control(const char* strTitle, int PosX, int PosY, int Width, int Height, ControlTypes Type, const char* strTooltip = "")
+			: Title_{ strTitle }, PosX_{ PosX }, PosY_{ PosY }, Width_{ Width }, Height_{ Height }, Type_{ Type }
 		{
 			SetTooltip(strTooltip);
 		}
@@ -37,6 +46,7 @@ namespace FHGUI
 		int Width_{ 0 };
 		int Height_{ 0 };
 		int TooltipHeight_{ 0 };
+		ControlTypes Type_{ ControlTypes::INVALID };
 		Tab* Tab_{ nullptr };
 		Window* Window_{ nullptr };
 	};
@@ -64,5 +74,18 @@ namespace FHGUI
 	private:
 		bool* Checked_{ nullptr };
 		int TitleWidth_{ 0 };
+	};
+
+	class Dropdown : public Control
+	{
+	public:
+		Dropdown(const char* strTitle, const std::vector<const char*>& Items, int* SelectedItem, const char* strTooltip = "");
+
+		virtual void Render() override;
+		virtual void OnClick() override;
+	private:
+		std::vector<const char*> Items_{};
+		int* SelectedItem_{ nullptr };
+		bool IsOpen_{ false };
 	};
 }

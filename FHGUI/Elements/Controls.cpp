@@ -10,8 +10,6 @@
 
 namespace FHGUI
 {
-	constexpr int TOOLTIP_WIDTH = 220;
-
 	Rect Control::AbsoluteArea()
 	{
 		Rect Area = { PosX_, PosY_, Width_, Height_ };
@@ -24,6 +22,8 @@ namespace FHGUI
 
 		return Area;
 	}
+
+	constexpr int TOOLTIP_WIDTH = 220;
 
 	void Control::SetTooltip(const char* strTooltip)
 	{
@@ -52,8 +52,7 @@ namespace FHGUI
 				TooltipHeight_ += Render::MenuFont->iHeight;
 
 				SpaceLeft = LineWidth - WordWidth;
-			}
-			else {
+			} else {
 				SpaceLeft -= WordWidth + SpaceWidth;
 			}
 
@@ -71,13 +70,13 @@ namespace FHGUI
 		const Rect TooltipArea = { CursorPos.x + 10, CursorPos.y + 10, TOOLTIP_WIDTH, TooltipHeight_ };
 
 		Render::Rect(TooltipArea.x, TooltipArea.y, TooltipArea.w, TooltipArea.h, { 0, 0, 0, 220 });
-		Render::FilledRect(TooltipArea.x + 1, TooltipArea.y + 1, TooltipArea.w - 2, TooltipArea.h - 2, { 35, 35, 35, 220 });
+		Render::FilledRect(TooltipArea.x + 1, TooltipArea.y + 1, TooltipArea.w - 2, TooltipArea.h - 2, { 32, 32, 32, 220 });
 
 		Render::String(TooltipArea.x + 4, TooltipArea.y + 2, { 255, 255, 255, 255 }, Tooltip_.c_str(), Render::MenuFont);
 	}
 
 	GroupBox::GroupBox(const char* strTitle, int PosX, int PosY, int Width, int Height)
-		: Control(strTitle, PosX, PosY, Width, Height)
+		: Control(strTitle, PosX, PosY, Width, Height, ControlTypes::GROUPBOX)
 	{
 
 	}
@@ -91,7 +90,7 @@ namespace FHGUI
 		pControl->PosX_ += PosX_ + OffsetX_;
 		pControl->PosY_ += PosY_ + OffsetY_;
 
-		OffsetY_ += pControl->Height_;
+		OffsetY_ += pControl->Height_ + 2;
 	}
 
 	void GroupBox::Render()
@@ -105,8 +104,10 @@ namespace FHGUI
 		}
 	}
 
+	constexpr int CHECKBOX_SIZE = 14;
+
 	CheckBox::CheckBox(const char* strTitle, bool* State, const char* strTooltip)
-		: Control(strTitle, 0, 0, 14, 14, strTooltip), Checked_{ State }
+		: Control(strTitle, 0, 0, CHECKBOX_SIZE, CHECKBOX_SIZE, ControlTypes::CHECKBOX, strTooltip), Checked_{ State }
 	{
 		if (!Title_.empty()) {
 			TitleWidth_ = Render::GetTextSize(Title_.c_str(), Render::MenuFont).w;
@@ -141,5 +142,46 @@ namespace FHGUI
 		Area.w += TitleWidth_ + 2;
 
 		return Area;
+	}
+
+	constexpr int DROPDOWN_HEIGHT = 14;
+
+	Dropdown::Dropdown(const char* strTitle, const std::vector<const char*>& Items, int* SelectedItem, const char* strTooltip)
+		: Control(strTitle, 0, 0, 80, DROPDOWN_HEIGHT, ControlTypes::DROPDOWN, strTooltip),
+		Items_{ Items }, SelectedItem_{ SelectedItem }
+	{
+
+	}
+
+	void Dropdown::Render()
+	{
+
+	}
+
+	void Dropdown::OnClick()
+	{
+		if (IsOpen_) {
+			const Rect& Area = AbsoluteArea();
+
+			if (!Items_.empty()) {
+				int AddOffsetY = 0;
+
+				for (size_t i = 0; i < Items_.size(); ++i) {
+					if (SelectedItem_ && i == *SelectedItem_)
+						continue;
+
+					Rect ItemArea = { Area.x, Area.y + DROPDOWN_HEIGHT + AddOffsetY, Area.w, DROPDOWN_HEIGHT };
+					if (Input::Get().MouseInArea(ItemArea)) {
+						*SelectedItem_ = i;
+					}
+
+					AddOffsetY += ItemArea.h;
+				}
+			}
+
+			IsOpen_ = false;
+		} else {
+			IsOpen_ = true;
+		}
 	}
 }

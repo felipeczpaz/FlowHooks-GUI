@@ -15,9 +15,22 @@ void Menu::Init()
 		AimbotTab->RegisterControl(AimbotGroup);
 		{
 			static bool bEnabled = false;
+			static bool bAutoShoot = false;
 
-			FHGUI::CheckBox* EnabledBox = new FHGUI::CheckBox("Enabled", &bEnabled, "Enable/Disable Aimbot");
+			FHGUI::CheckBox* EnabledBox = new FHGUI::CheckBox("Enabled", &bEnabled, "Enable/Disable Aimbot.");
 			AimbotGroup->RegisterControl(EnabledBox);
+
+			FHGUI::CheckBox* AutoShootBox = new FHGUI::CheckBox("Auto Shoot", &bAutoShoot, "Enable/Disable Weapon Auto Fire.");
+			AimbotGroup->RegisterControl(AutoShootBox);
+		}
+
+		FHGUI::GroupBox* AccuracyGroup = new FHGUI::GroupBox("Accuracy", 251, 0, 239, 164);
+		AimbotTab->RegisterControl(AccuracyGroup);
+		{
+			static bool bNoRecoil = false;
+
+			FHGUI::CheckBox* NoRecoilBox = new FHGUI::CheckBox("No Recoil", &bNoRecoil, "Enable/Disable No Recoil.");
+			AccuracyGroup->RegisterControl(NoRecoilBox);
 		}
 	}
 
