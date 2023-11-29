@@ -16,12 +16,16 @@ void Menu::Init()
 		{
 			static bool bEnabled = false;
 			static bool bAutoShoot = false;
+			static int iSelection = 0;
 
 			FHGUI::CheckBox* EnabledBox = new FHGUI::CheckBox("Enabled", &bEnabled, "Enable/Disable Aimbot.");
 			AimbotGroup->RegisterControl(EnabledBox);
 
 			FHGUI::CheckBox* AutoShootBox = new FHGUI::CheckBox("Auto Shoot", &bAutoShoot, "Enable/Disable Weapon Auto Fire.");
 			AimbotGroup->RegisterControl(AutoShootBox);
+
+			FHGUI::Dropdown* SelectionDropdown = new FHGUI::Dropdown("Selection", { "Field Of View", "Health", "Damage", "K/D Ratio" }, &iSelection, "Configure Target Selection.");
+			AimbotGroup->RegisterControl(SelectionDropdown);
 		}
 
 		FHGUI::GroupBox* AccuracyGroup = new FHGUI::GroupBox("Accuracy", 251, 0, 239, 164);

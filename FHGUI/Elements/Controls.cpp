@@ -144,10 +144,11 @@ namespace FHGUI
 		return Area;
 	}
 
+	constexpr int DROPDOWN_WIDTH = 80;
 	constexpr int DROPDOWN_HEIGHT = 14;
 
 	Dropdown::Dropdown(const char* strTitle, const std::vector<const char*>& Items, int* SelectedItem, const char* strTooltip)
-		: Control(strTitle, 0, 0, 80, DROPDOWN_HEIGHT, ControlTypes::DROPDOWN, strTooltip),
+		: Control(strTitle, 0, DROPDOWN_HEIGHT, DROPDOWN_WIDTH, DROPDOWN_HEIGHT, ControlTypes::DROPDOWN, strTooltip),
 		Items_{ Items }, SelectedItem_{ SelectedItem }
 	{
 
@@ -155,7 +156,53 @@ namespace FHGUI
 
 	void Dropdown::Render()
 	{
+		const Rect& Area = AbsoluteArea();
 
+		if (!Title_.empty()) {
+			Render::String(Area.x, Area.y - DROPDOWN_HEIGHT, { 255, 255, 255, 255 }, Title_.c_str(), Render::MenuFont);
+		}
+
+		Render::Rect(Area.x, Area.y, Area.w, Area.h, { 0, 0, 0, 255 });
+		Render::FilledRect(Area.x + 1, Area.y + 1, Area.w - 2, Area.h - 2, { 24, 24, 24, 255 });
+
+		if (SelectedItem_) {
+			const char* SelectedItemString = Items_[*SelectedItem_];
+			Render::String(Area.x + 3, Area.y + (DROPDOWN_HEIGHT / 2), { 255, 255, 255, 255 }, SelectedItemString, Render::MenuFont, CD3DFONT_CENTERED_Y);
+		}
+
+		Render::Rect(Area.x + Area.w - 14, Area.y, 14, Area.h, { 0, 0, 0, 255 });
+		Render::FilledRect(Area.x + Area.w - 13, Area.y + 1, 12, Area.h - 2, { 46, 46, 46, 255 });
+
+		Render::Line(Area.x + Area.w - 10, Area.y + 7, Area.x + Area.w - 6, Area.y + 7, { 0, 0, 0, 255 });
+
+		if (!IsOpen_) {
+			Render::Line(Area.x + Area.w - 8, Area.y + 5, Area.x + Area.w - 8, Area.y + 9, { 0, 0, 0, 255 });
+			return;
+		}
+
+		if (!Items_.empty() && SelectedItem_) {
+			int AddOffsetY = 0;
+
+			int VisibleItems = static_cast<int>(Items_.size()) - 1;
+			Render::Rect(Area.x, Area.y + DROPDOWN_HEIGHT - 1, Area.w, (VisibleItems * DROPDOWN_HEIGHT) + 2, { 0, 0, 0, 255 });
+
+			for (size_t i = 0; i < Items_.size(); ++i) {
+				if (i == *SelectedItem_)
+					continue;
+
+				Rect ItemArea = { Area.x, Area.y + DROPDOWN_HEIGHT + AddOffsetY, Area.w, DROPDOWN_HEIGHT };
+
+				if (FHGUI::Input::Get().MouseInArea(ItemArea)) {
+					Render::FilledRect(ItemArea.x + 1, ItemArea.y, ItemArea.w - 2, ItemArea.h, { 255, 146, 0, 255 });
+				} else {
+					Render::FilledRect(ItemArea.x + 1, ItemArea.y, ItemArea.w - 2, ItemArea.h, { 24, 24, 24, 255 });
+				}
+
+				Render::String(ItemArea.x + 3, ItemArea.y + (ItemArea.h / 2), { 255, 255, 255, 255 }, Items_[i], Render::MenuFont, CD3DFONT_CENTERED_Y);
+
+				AddOffsetY += ItemArea.h;
+			}
+		}
 	}
 
 	void Dropdown::OnClick()
@@ -163,16 +210,16 @@ namespace FHGUI
 		if (IsOpen_) {
 			const Rect& Area = AbsoluteArea();
 
-			if (!Items_.empty()) {
+			if (!Items_.empty() && SelectedItem_) {
 				int AddOffsetY = 0;
 
 				for (size_t i = 0; i < Items_.size(); ++i) {
-					if (SelectedItem_ && i == *SelectedItem_)
+					if (i == *SelectedItem_)
 						continue;
 
 					Rect ItemArea = { Area.x, Area.y + DROPDOWN_HEIGHT + AddOffsetY, Area.w, DROPDOWN_HEIGHT };
 					if (Input::Get().MouseInArea(ItemArea)) {
-						*SelectedItem_ = i;
+						*SelectedItem_ = static_cast<int>(i);
 					}
 
 					AddOffsetY += ItemArea.h;
@@ -183,5 +230,15 @@ namespace FHGUI
 		} else {
 			IsOpen_ = true;
 		}
+	}
+
+	Rect Dropdown::InputArea()
+	{
+		Rect Area = Control::AbsoluteArea();
+
+		int VisibleItems = static_cast<int>(Items_.size()) - 1;
+		Area.h += (VisibleItems * DROPDOWN_HEIGHT) + 2;
+
+		return Area;
 	}
 }

@@ -83,6 +83,8 @@ namespace FHGUI
 
 		virtual void Render() override;
 		virtual void OnClick() override;
+		virtual Rect InputArea() override;
+		virtual Rect TooltipArea() { return AbsoluteArea(); };
 	private:
 		std::vector<const char*> Items_{};
 		int* SelectedItem_{ nullptr };
